@@ -372,6 +372,32 @@ module.exports = function (context, req) {
 };
 ```
 
+#### Azurefunction 2
+```js
+module.exports = function (context, req) {
+    var maxValue = 0; var maxEmotion = "";
+    var emotions = req.body.emotion[0].scores;
+
+    for(var prop in emotions) {
+        if(emotions[prop] > maxValue) {
+            maxValue = emotions[prop];
+            maxEmotion = prop;
+        }
+    }
+    var result = {
+        "face_id": req.body.face_id,
+        "nickname": req.body.nickname,
+        "age": req.body.face.faces[0].age,
+        "emotion": maxEmotion,
+        "description": req.body.korDescription,
+        "gender": req.body.face.faces[0].gender,
+    }
+    context.bindings.output = result;
+    context.res = result;
+    context.done();
+};
+```
+
 ## \#4 Ajax success function 완성하기
 response data 결과 값을 view 단에 잘 표현하도록 완성한다.
 
