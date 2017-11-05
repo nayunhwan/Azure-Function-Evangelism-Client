@@ -105,13 +105,15 @@ const _promise = new Promise((resolve, reject) => {
                 headers: {
                     'Ocp-Apim-Subscription-Key': 'b8543fad17e8441d8ae5004d0359f3a5',
                     'Content-Type': 'application/octet-stream',
-                }
+                },
+                body: req.body,
             }, (err, result, body) => {
                 if (err) reject(err);
                 resolve(JSON.parse(body));
             });
         }).then(emotionData => {
             context.res = emotionData;
+            context.done();
         });
 ```
 
