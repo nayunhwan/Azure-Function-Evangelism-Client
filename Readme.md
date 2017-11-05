@@ -135,6 +135,63 @@ module.exports = function (context, req) {
 };
 ```
 
+#### Promise2
+```js
+const request = require('request');
+const qs = require('querystring');
+const xml2js = require('xml2js');
+
+module.exports = function (context, req) {
+    context.log('JavaScript HTTP trigger function processed a request.');
+
+    if (req.body) {
+        const _promise = new Promise((resolve, reject) => {
+            request.post({
+                url: 'https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize',
+                headers: {
+                    'Ocp-Apim-Subscription-Key': 'b8543fad17e8441d8ae5004d0359f3a5',
+                    'Content-Type': 'application/octet-stream',
+                },
+                body: req.body,
+            }, (err, result, body) => {
+                if (err) reject(err);
+                resolve(JSON.parse(body));
+            });
+        }).then(emotionData => {
+            context.res = emotionData;
+            context.done();
+            return new Promise((resolve, reject) => {
+                request.post({
+                    url : 'https://api.projectoxford.ai/vision/v1.0/analyze?visualFeatures=Description,Faces&language=en',
+                    headers: {
+                        'Ocp-Apim-Subscription-Key': 'c8a88151c9c84934aef42a17c161eb5f',
+                        'Content-Type': 'application/octet-stream',
+                    },
+                    body: req.body,
+                }, (err, result, body) => {
+                    if (err) reject(err);
+                    resolve({
+                        emotion: emotionData,
+                        face: JSON.parse(body)
+                    });
+                });
+            });
+        }).then(visionData => {
+            context.res = visionData;
+            context.done();
+        });
+    }
+    else {
+        context.res = {
+            status: 400,
+            body: "Please pass a name on the query string or in the request body"
+        };
+        context.done();
+    }
+
+};
+```
+
 ## \#4 Ajax success function 완성하기
 response data 결과 값을 view 단에 잘 표현하도록 완성한다.
 
