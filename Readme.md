@@ -158,8 +158,6 @@ module.exports = function (context, req) {
                 resolve(JSON.parse(body));
             });
         }).then(emotionData => {
-            context.res = emotionData;
-            context.done();
             return new Promise((resolve, reject) => {
                 request.post({
                     url : 'https://api.projectoxford.ai/vision/v1.0/analyze?visualFeatures=Description,Faces&language=en',
