@@ -97,6 +97,23 @@ headers: {
 }
 ```
 
+#### Promise 1
+```js
+const _promise = new Promise((resolve, reject) => {
+            request.post({
+                url: 'https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize',
+                headers: {
+                    'Ocp-Apim-Subscription-Key': 'b8543fad17e8441d8ae5004d0359f3a5',
+                    'Content-Type': 'application/octet-stream',
+                }
+            }, (err, result, body) => {
+                if (err) reject(err);
+                resolve(JSON.parse(body));
+            });
+        }).then(emotionData => {
+            context.res = emotionData;
+        });
+```
 
 ## \#4 Ajax success function 완성하기
 response data 결과 값을 view 단에 잘 표현하도록 완성한다.
