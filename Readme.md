@@ -99,7 +99,15 @@ headers: {
 
 #### Promise 1
 ```js
-const _promise = new Promise((resolve, reject) => {
+const request = require('request');
+const qs = require('querystring');
+const xml2js = require('xml2js');
+
+module.exports = function (context, req) {
+    context.log('JavaScript HTTP trigger function processed a request.');
+
+    if (req.body) {
+        const _promise = new Promise((resolve, reject) => {
             request.post({
                 url: 'https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize',
                 headers: {
@@ -115,6 +123,16 @@ const _promise = new Promise((resolve, reject) => {
             context.res = emotionData;
             context.done();
         });
+    }
+    else {
+        context.res = {
+            status: 400,
+            body: "Please pass a name on the query string or in the request body"
+        };
+        context.done();
+    }
+
+};
 ```
 
 ## \#4 Ajax success function 완성하기
