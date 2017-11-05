@@ -72,11 +72,6 @@ $(function() {
   	최초 접속 시간을 기준으로하여 hash화하며, hash 알고리즘은 SHA256을 사용합니다.
   	생성된 토큰은 localStorage의 '_id'값으로 저장하며, localStorage에 '_id' 토큰이 없는 경우에만 token을 생성하도록 합니다.
   */
-	if (localStorage.getItem('_id') === null) {
- 			var d = new Date();
- 			localStorage.setItem('_id', SHA256(d.toString()));
- 	}
-	console.log(localStorage.getItem('_id'));
 
   /*
     #2 웹 브라우저상에 웹캠 스트림을 표시합니다.
@@ -84,14 +79,6 @@ $(function() {
     navigator.getUserMedia(constraints, successCallback, errCallback) 메소드를 이용하여
     video 스트림을 받아와 <video/> 태그에 표시합니다.
   */
-  navigator.getUserMedia({ video: true },
-		function(localMediaStream) {
-			video.srcObject = localMediaStream;
-		},
-		function(err) {
-			console.log(err);
-		}
-	);
 
   /*
     #4 button이 눌렸을 때 analyzeImage function을 실행시키는 코드를 작성합니다.
