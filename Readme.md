@@ -76,6 +76,27 @@ $.ajax({
 });
 ```
 
+cognitive url
+```
+emotion url : https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize
+headers: {
+    'Ocp-Apim-Subscription-Key': 'b8543fad17e8441d8ae5004d0359f3a5',
+    'Content-Type': 'application/octet-stream',
+},
+
+vision url : 'https://api.projectoxford.ai/vision/v1.0/analyze?visualFeatures=Description,Faces&language=en',
+headers: {
+    'Ocp-Apim-Subscription-Key': 'c8a88151c9c84934aef42a17c161eb5f',
+    'Content-Type': 'application/octet-stream'
+}
+
+
+translate url : `https://api.microsofttranslator.com/v2/http.svc/Translate?text=${qs.escape(engDescription)}&from=en&to=ko`,
+headers: {
+    'Ocp-Apim-Subscription-Key': '131784c1d38c4a0ca28dc5e59c42d088',
+}
+```
+
 
 ## \#4 Ajax success function 완성하기
 response data 결과 값을 view 단에 잘 표현하도록 완성한다.
