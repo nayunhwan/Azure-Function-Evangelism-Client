@@ -215,7 +215,22 @@ module.exports = function (context, req) {
                 });
             });
         }).then(allData => {
-          context.res = allData;
+          var maxEmotion = ""; var maxValue = 0;
+          var emotions = allData.emotion[0].scores;
+          for(var prop in emotions) {
+            if(emotions[prop] > maxValue) {
+              maxEmotion = prop;
+              maxValue = emotions[prop];
+            }
+          }
+          var result = {
+            "age": allData.face.faces[0].age,
+            "gender": allData.face.faces[0].gender,
+            "emotion": maxEmotion,
+            "description": allData.korDescription,
+          };
+          context.bindings.outputDocument = result;
+          context.res = { result };
           context.done();
         });
     }
