@@ -202,7 +202,7 @@ module.exports = function (context, req) {
                         })
                     );
                 });
-            });        
+            });
         }).then(data => {
             return new Promise((resolve, reject) => {
                 xml2js.parseString(data.korXml, (err, res) => {
@@ -215,30 +215,8 @@ module.exports = function (context, req) {
                 });
             });
         }).then(allData => {
-            allData.face_id = req.headers._id;
-            allData.nickname = req.headers.nickname;
-            return new Promise((resolve, reject) => {
-                request.post({
-                    url: 'https://dlsrb.azurewebsites.net/api/HttpTriggerJS1?code=IemuaEy6uWyTIcBJg9/341Sqvs3aHXcRy0SFnDrzOdECNsUyOSGaAA==',
-                    // url: 'https://alphaca.azurewebsites.net/api/HttpTriggerJS2?code=w5QJRosRRKgKoTTL6XCswS6XfOcvDS3HuJaA2DHKkTqogyC4TUXJAQ==',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(allData),
-                }, (err, result, body) => {
-                    if (err) {
-                        context.log('err');
-                        context.log(err);
-                        reject(err);
-                    }
-                    context.log('test');
-                    context.log(body);
-                    resolve(JSON.parse(body));
-                });
-            });
-        }).then(data => {
-            context.res = data;
-            context.done();
+          context.res = allData;
+          context.done();
         });
     }
     else {
